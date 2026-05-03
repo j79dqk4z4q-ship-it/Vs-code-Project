@@ -154,18 +154,31 @@ const viewTitles = {
     'search': 'SEARCH',
     'scm': 'SOURCE CONTROL',
     'debug': 'RUN AND DEBUG',
-    'extensions': 'EXTENSIONS',
     'settings': 'SETTINGS'
 };
 
 activityIcons.forEach(icon => {
     icon.addEventListener('click', () => {
+        const viewName = icon.dataset.view;
+        if (!viewName) return;
+
+        const sidebar = document.querySelector('.sidebar');
+        const isSidebarHidden = sidebar.classList.contains('sidebar-hidden');
+        const isIconActive = icon.classList.contains('active');
+
+        // If clicking the active icon, toggle sidebar
+        if (isIconActive) {
+            sidebar.classList.toggle('sidebar-hidden');
+            icon.classList.toggle('active', !sidebar.classList.contains('sidebar-hidden'));
+            return;
+        }
+
+        // Otherwise, show the clicked view and make sure sidebar is visible
+        sidebar.classList.remove('sidebar-hidden');
+        
         // Remove active class from all icons
         document.querySelectorAll('.activity-icon').forEach(i => i.classList.remove('active'));
         icon.classList.add('active');
-        
-        const viewName = icon.dataset.view;
-        if (!viewName) return;
 
         // Hide all views
         sidebarViews.forEach(view => {
@@ -185,34 +198,75 @@ activityIcons.forEach(icon => {
     });
 });
 
-// Menu bar
+// Layout toggles
+const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+const togglePanelBtn = document.getElementById('toggle-panel-btn');
+
+if (toggleSidebarBtn) {
+    toggleSidebarBtn.addEventListener('click', () => {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.classList.toggle('sidebar-hidden');
+        
+        // Update activity bar active state
+        const activeIcon = document.querySelector('.activity-icon.active');
+        if (sidebar.classList.contains('sidebar-hidden')) {
+            if (activeIcon) activeIcon.classList.remove('active');
+        } else {
+            // Re-activate the last active view if possible, or explorer by default
+            const explorerIcon = document.querySelector('.activity-icon[data-view="explorer"]');
+            if (explorerIcon) explorerIcon.classList.add('active');
+        }
+    });
+}
+
+if (togglePanelBtn) {
+    togglePanelBtn.addEventListener('click', () => {
+        const panel = document.querySelector('.terminal-panel');
+        panel.classList.toggle('panel-hidden');
+    });
+}
+
+// Menu bar - VS Code style: click to open, hover to switch
 const menuItems = document.querySelectorAll('.window-menu .menu-item');
 const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+let menuBarOpen = false;
+
+function closeAllMenus() {
+    dropdownMenus.forEach(menu => menu.style.display = 'none');
+    menuItems.forEach(mi => mi.classList.remove('menu-active'));
+    menuBarOpen = false;
+}
+
+function openMenu(item) {
+    const menuName = item.dataset.menu;
+    const dropdown = document.getElementById(menuName + '-menu');
+    if (!dropdown) return;
+    dropdownMenus.forEach(menu => menu.style.display = 'none');
+    menuItems.forEach(mi => mi.classList.remove('menu-active'));
+    dropdown.style.display = 'block';
+    const rect = item.getBoundingClientRect();
+    dropdown.style.left = rect.left + 'px';
+    item.classList.add('menu-active');
+    menuBarOpen = true;
+}
 
 menuItems.forEach(item => {
     item.addEventListener('click', (e) => {
         e.stopPropagation();
-        const menuName = item.dataset.menu;
-        const dropdown = document.getElementById(menuName + '-menu');
-        
-        // Check if this dropdown is already visible
-        const isVisible = dropdown.style.display === 'block';
-        
-        // Hide all dropdowns
-        dropdownMenus.forEach(menu => menu.style.display = 'none');
-        
-        // Show the clicked dropdown only if it wasn't already visible
-        if (dropdown && !isVisible) {
-            dropdown.style.display = 'block';
-            const rect = item.getBoundingClientRect();
-            dropdown.style.left = rect.left + 'px';
+        if (menuBarOpen && item.classList.contains('menu-active')) {
+            closeAllMenus();
+        } else {
+            openMenu(item);
         }
+    });
+    item.addEventListener('mouseenter', () => {
+        if (menuBarOpen) openMenu(item);
     });
 });
 
 // Hide dropdowns when clicking outside
 document.addEventListener('click', () => {
-    dropdownMenus.forEach(menu => menu.style.display = 'none');
+    closeAllMenus();
 });
 
 // Dropdown menu items
@@ -223,7 +277,7 @@ dropdownItems.forEach(item => {
         const action = item.textContent.split(' ')[0].toLowerCase(); // Get first word as action
         
         // Hide dropdown after click
-        item.closest('.dropdown-menu').style.display = 'none';
+        closeAllMenus();
         
         // Handle different menu actions
         switch(action) {
@@ -315,9 +369,7 @@ dropdownItems.forEach(item => {
             case 'run':
                 document.querySelector('[data-view="debug"]').click();
                 break;
-            case 'extensions':
-                document.querySelector('[data-view="extensions"]').click();
-                break;
+
             case 'terminal':
                 alert('Opening terminal... (Ctrl+`)');
                 break;
@@ -500,12 +552,11 @@ if (wordWrapSelect) {
 }
 
 // Terminal tabs
-const terminalTabs = document.querySelectorAll('.terminal-header span');
+const terminalTabs = document.querySelectorAll('.terminal-header > span:not(.terminal-actions)');
 terminalTabs.forEach(tab => {
     tab.addEventListener('click', () => {
-        document.querySelectorAll('.terminal-header span').forEach(t => t.classList.remove('terminal-tab-active'));
+        document.querySelectorAll('.terminal-header > span:not(.terminal-actions)').forEach(t => t.classList.remove('terminal-tab-active'));
         tab.classList.add('terminal-tab-active');
-        alert(`Switched to: ${tab.textContent}`);
     });
 });
 
@@ -937,13 +988,7 @@ document.addEventListener('keydown', (e) => {
                 }
                 e.preventDefault();
                 break;
-            case 'x':
-                if (e.shiftKey) {
-                    document.querySelector('[data-view="extensions"]').click();
-                    alert('Extensions (Ctrl+Shift+X)');
-                }
-                e.preventDefault();
-                break;
+
             case 'e':
                 if (e.shiftKey) {
                     document.querySelector('[data-view="explorer"]').click();
