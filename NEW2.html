@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Studio Code for the Web</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vscode/codicons/dist/codicon.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="monitor">
+        <div class="screen">
+            <div class="browser-banner">
+                <div class="banner-brand">
+                    <svg class="vscode-logo" viewBox="0 0 1024 1024" width="18" height="18" focusable="false" aria-hidden="true">
+                        <path fill="#0065A9" d="M719.8 499.7 332.3 204.1c-22.4-17.1-54.5-15.7-75.3 3.3L73.1 375.1c-25.2 23-25.1 62.8.1 85.7L232.6 606 73.2 751.1c-25.2 23-25.3 62.8-.1 85.8L257 1004.6c20.8 19 52.9 20.4 75.3 3.3l387.5-295.6c37.5-28.6 37.5-184 0-212.6z" />
+                        <path fill="#007ACC" d="M257 207.4c20.8-19 52.9-20.4 75.3-3.3l387.5 295.6c37.5 28.6 37.5 184 0 212.6L332.3 1007.9c-22.4 17.1-54.5 15.7-75.3-3.3L586.1 606 257 207.4z" />
+                        <path fill="#1F9CF0" d="M719.8 712.3 332.3 1007.9c-22.4 17.1-54.5 15.7-75.3-3.3L73.1 836.9c-25.2-23-25.1-62.8.1-85.8L232.6 606l487.2-106.3c37.5 28.6 37.5 184 0 212.6z" />
+                        <path fill="#007ACC" d="M951.1 150.2 727.3 42.5c-25.9-12.5-56.8-2-70.1 23.5L232.6 606l424.6 540c13.3 25.5 44.2 36 70.1 23.5l223.8-107.7c18.2-8.8 29.9-27.2 29.9-47.4V197.6c0-20.2-11.7-38.6-29.9-47.4z" />
+                    </svg>
+                    <span>Visual Studio Code (Preview). Anywhere, anytime, entirely in your browser.</span>
+                </div>
+                <a href="#">Read the Documentation</a>
+                <a href="#">Privacy &amp; Cookies</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Download VS Code</a>
+                <span class="codicon codicon-close banner-close" aria-hidden="true"></span>
+            </div>
+
+            <!-- window top bar with VS Code web controls -->
+            <div class="window-controls">
+                <div class="window-app-icon" aria-hidden="true">
+                    <span class="codicon codicon-menu"></span>
+                </div>
+                <div class="window-menu">
+                    <span class="menu-item" data-menu="file">File</span>
+                    <span class="menu-item" data-menu="edit">Edit</span>
+                    <span class="menu-item" data-menu="selection">Selection</span>
+                    <span class="menu-item" data-menu="view">View</span>
+                    <span class="menu-item" data-menu="go">Go</span>
+                    <span class="menu-item" data-menu="run">Run</span>
+                    <span class="menu-item" data-menu="terminal">Terminal</span>
+                    <span class="menu-item" data-menu="help">Help</span>
+                </div>
+
+                <!-- Dropdown Menus -->
+                <div class="dropdown-menu" id="file-menu">
+                    <div class="menu-item">New File <span class="shortcut">Ctrl+N</span></div>
+                    <div class="menu-item">New Window <span class="shortcut">Ctrl+Shift+N</span></div>
+                    <div class="menu-item">Open File... <span class="shortcut">Ctrl+O</span></div>
+                    <div class="menu-item">Open Folder... <span class="shortcut">Ctrl+K Ctrl+O</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Save <span class="shortcut">Ctrl+S</span></div>
+                    <div class="menu-item">Save As... <span class="shortcut">Ctrl+Shift+S</span></div>
+                    <div class="menu-item">Save All <span class="shortcut">Ctrl+K S</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Exit <span class="shortcut">Alt+F4</span></div>
+                </div>
+
+                <div class="dropdown-menu" id="edit-menu">
+                    <div class="menu-item">Undo <span class="shortcut">Ctrl+Z</span></div>
+                    <div class="menu-item">Redo <span class="shortcut">Ctrl+Y</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Cut <span class="shortcut">Ctrl+X</span></div>
+                    <div class="menu-item">Copy <span class="shortcut">Ctrl+C</span></div>
+                    <div class="menu-item">Paste <span class="shortcut">Ctrl+V</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Find <span class="shortcut">Ctrl+F</span></div>
+                    <div class="menu-item">Replace <span class="shortcut">Ctrl+H</span></div>
+                </div>
+
+                <div class="dropdown-menu" id="selection-menu">
+                    <div class="menu-item">Select All <span class="shortcut">Ctrl+A</span></div>
+                    <div class="menu-item">Expand Selection <span class="shortcut">Shift+Alt+Right</span></div>
+                    <div class="menu-item">Shrink Selection <span class="shortcut">Shift+Alt+Left</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Copy Line Up <span class="shortcut">Shift+Alt+Up</span></div>
+                    <div class="menu-item">Copy Line Down <span class="shortcut">Shift+Alt+Down</span></div>
+                    <div class="menu-item">Move Line Up <span class="shortcut">Alt+Up</span></div>
+                    <div class="menu-item">Move Line Down <span class="shortcut">Alt+Down</span></div>
+                </div>
+
+                <div class="dropdown-menu" id="view-menu">
+                    <div class="menu-item">Command Palette <span class="shortcut">Ctrl+Shift+P</span></div>
+                    <div class="menu-item">Open View...</div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Explorer <span class="shortcut">Ctrl+Shift+E</span></div>
+                    <div class="menu-item">Search <span class="shortcut">Ctrl+Shift+F</span></div>
+                    <div class="menu-item">Source Control <span class="shortcut">Ctrl+Shift+G</span></div>
+                    <div class="menu-item">Run and Debug <span class="shortcut">Ctrl+Shift+D</span></div>
+                    <div class="menu-item">Extensions <span class="shortcut">Ctrl+Shift+X</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Terminal <span class="shortcut">Ctrl+`</span></div>
+                    <div class="menu-item">Problems <span class="shortcut">Ctrl+Shift+M</span></div>
+                    <div class="menu-item">Output <span class="shortcut">Ctrl+Shift+U</span></div>
+                </div>
+
+                <div class="dropdown-menu" id="go-menu">
+                    <div class="menu-item">Back <span class="shortcut">Alt+Left</span></div>
+                    <div class="menu-item">Forward <span class="shortcut">Alt+Right</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Go to File... <span class="shortcut">Ctrl+P</span></div>
+                    <div class="menu-item">Go to Symbol... <span class="shortcut">Ctrl+Shift+O</span></div>
+                    <div class="menu-item">Go to Line/Column... <span class="shortcut">Ctrl+G</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Next Editor <span class="shortcut">Ctrl+PageDown</span></div>
+                    <div class="menu-item">Previous Editor <span class="shortcut">Ctrl+PageUp</span></div>
+                </div>
+
+                <div class="dropdown-menu" id="run-menu">
+                    <div class="menu-item">Start Debugging <span class="shortcut">F5</span></div>
+                    <div class="menu-item">Run Without Debugging <span class="shortcut">Ctrl+F5</span></div>
+                    <div class="menu-item">Stop Debugging <span class="shortcut">Shift+F5</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Open Configurations</div>
+                    <div class="menu-item">Add Configuration...</div>
+                </div>
+
+                <div class="dropdown-menu" id="terminal-menu">
+                    <div class="menu-item">New Terminal <span class="shortcut">Ctrl+Shift+`</span></div>
+                    <div class="menu-item">Split Terminal <span class="shortcut">Ctrl+Shift+5</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Run Task...</div>
+                    <div class="menu-item">Configure Tasks...</div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Clear</div>
+                </div>
+
+                <div class="dropdown-menu" id="help-menu">
+                    <div class="menu-item">Welcome</div>
+                    <div class="menu-item">Show All Commands <span class="shortcut">Ctrl+Shift+P</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">Documentation</div>
+                    <div class="menu-item">Release Notes</div>
+                    <div class="menu-item">Keyboard Shortcuts Reference <span class="shortcut">Ctrl+K Ctrl+S</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item">About</div>
+                </div>
+                <div class="titlebar-nav" aria-hidden="true">
+                    <span class="codicon codicon-arrow-left"></span>
+                    <span class="codicon codicon-arrow-right"></span>
+                </div>
+                <div class="window-title">
+                    <span class="codicon codicon-search"></span>
+                    <span>Workspace</span>
+                </div>
+                <div class="layout-actions" aria-hidden="true">
+                    <span class="codicon codicon-layout-sidebar-left"></span>
+                    <span class="codicon codicon-layout-panel"></span>
+                    <span class="codicon codicon-layout-sidebar-right"></span>
+                    <span class="codicon codicon-layout"></span>
+                </div>
+                <div class="theme-toggle" id="theme-toggle">Theme</div>
+                <div class="theme-picker" id="theme-picker">
+                    <h3>Select Color Theme</h3>
+                    <div class="theme-list">
+                        <div class="theme-item active" data-theme="vs-dark">
+                            <div class="theme-preview">
+                                <div class="theme-color" style="background:#1e1e1e;"></div>
+                                <div class="theme-color" style="background:#cccccc;"></div>
+                                <div class="theme-color" style="background:#007acc;"></div>
+                            </div>
+                            <span>Dark Modern</span>
+                        </div>
+                        <div class="theme-item" data-theme="vs-light">
+                            <div class="theme-preview">
+                                <div class="theme-color" style="background:#ffffff;"></div>
+                                <div class="theme-color" style="background:#000000;"></div>
+                                <div class="theme-color" style="background:#007acc;"></div>
+                            </div>
+                            <span>Light Modern</span>
+                        </div>
+                        <div class="theme-item" data-theme="hc-black">
+                            <div class="theme-preview">
+                                <div class="theme-color" style="background:#000000;"></div>
+                                <div class="theme-color" style="background:#ffffff;"></div>
+                                <div class="theme-color" style="background:#ffcc00;"></div>
+                            </div>
+                            <span>High Contrast Dark</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- actual VSCODE LAYOUT -->
+            <div class="vscode-body">
+                <!-- activity bar left -->
+                <div class="activity-bar">
+                    <div class="activity-icon active" data-view="explorer" title="Explorer (Ctrl+Shift+E)">
+                        <span class="codicon codicon-files"></span>
+                    </div>
+                    <div class="activity-icon" data-view="search" title="Search (Ctrl+Shift+F)">
+                        <span class="codicon codicon-search"></span>
+                    </div>
+                    <div class="activity-icon" data-view="scm" title="Source Control (Ctrl+Shift+G)">
+                        <span class="codicon codicon-source-control"></span>
+                    </div>
+                    <div class="activity-icon" data-view="debug" title="Run and Debug (Ctrl+Shift+D)">
+                        <span class="codicon codicon-debug-alt"></span>
+                    </div>
+                    <div class="activity-icon" data-view="extensions" title="Extensions (Ctrl+Shift+X)">
+                        <span class="codicon codicon-extensions"></span>
+                    </div>
+                    <div class="activity-icon account-icon" style="margin-top:auto;" title="Accounts">
+                        <span class="codicon codicon-account"></span>
+                    </div>
+                    <div class="activity-icon" title="Settings (Ctrl+,)">
+                        <span class="codicon codicon-settings-gear"></span>
+                    </div>
+                </div>
+
+                <!-- sidebar with file tree -->
+                <div class="sidebar">
+                    <div class="sidebar-header">EXPLORER</div>
+                    
+                    <!-- Explorer View -->
+                    <div id="view-explorer" class="sidebar-view" style="display:block;">
+                        <div class="tree">
+                            <div class="tree-item folder-toggle"><span class="codicon codicon-chevron-down chevron"></span><span class="codicon codicon-folder icon folder"></span><span class="folder">src</span></div>
+                            <div class="folder-content">
+                                <div class="tree-item folder-toggle" style="margin-left:22px;"><span class="codicon codicon-chevron-down chevron"></span><span class="codicon codicon-folder icon folder"></span><span>components</span></div>
+                                <div class="folder-content">
+                                    <div class="tree-item file" style="margin-left:44px;" data-file="Header.jsx"><span class="codicon codicon-file-code icon"></span><span>Header.jsx</span></div>
+                                    <div class="tree-item file" style="margin-left:44px;" data-file="Footer.jsx"><span class="codicon codicon-file-code icon"></span><span>Footer.jsx</span></div>
+                                </div>
+                                <div class="tree-item folder-toggle" style="margin-left:22px;"><span class="codicon codicon-chevron-right chevron"></span><span class="codicon codicon-folder icon folder"></span><span>styles</span></div>
+                                <div class="folder-content" style="display:none;">
+                                    <div class="tree-item file" style="margin-left:44px;" data-file="App.css"><span class="codicon codicon-file-code icon"></span><span>App.css</span></div>
+                                </div>
+                                <div class="tree-item file selected" style="margin-left:22px;" data-file="App.js">
+                                    <span class="codicon codicon-file-code icon"></span><span style="font-weight:500;">App.js</span><span class="git-indicator">M</span>
+                                </div>
+                                <div class="tree-item file" style="margin-left:22px;" data-file="index.js"><span class="codicon codicon-file-code icon"></span><span>index.js</span></div>
+                            </div>
+                            <div class="tree-item folder-toggle"><span class="codicon codicon-chevron-down chevron"></span><span class="codicon codicon-folder icon folder"></span><span class="folder">public</span></div>
+                            <div class="folder-content">
+                                <div class="tree-item file" style="margin-left:22px;" data-file="index.html"><span class="codicon codicon-file-code icon"></span><span>index.html</span></div>
+                                <div class="tree-item file" style="margin-left:22px;" data-file="favicon.ico"><span class="codicon codicon-file-media icon"></span><span>favicon.ico</span></div>
+                            </div>
+                            <div class="tree-item file" data-file="package.json"><span class="codicon codicon-json icon"></span><span>package.json</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Search View -->
+                    <div id="view-search" class="sidebar-view" style="display:none; padding:10px;">
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <input type="text" placeholder="Search" style="width:100%; padding:4px 6px; background:#1e2030; border:1px solid #1f2335; color:#a9b1d6; border-radius:3px; outline:none; font-family:inherit;">
+                            <input type="text" placeholder="Replace" style="width:100%; padding:4px 6px; background:#1e2030; border:1px solid #1f2335; color:#a9b1d6; border-radius:3px; outline:none; font-family:inherit;">
+                            <div style="font-size:12px; color:#565f89; margin-top:10px;">Search details will appear here. No results found.</div>
+                        </div>
+                    </div>
+
+                    <!-- Source Control View -->
+                    <div id="view-scm" class="sidebar-view" style="display:none; padding:10px;">
+                        <input type="text" placeholder="Message (Press Ctrl+Enter to commit)" style="width:100%; padding:4px 6px; background:#1e2030; border:1px solid #1f2335; color:#a9b1d6; border-radius:3px; outline:none; font-family:inherit; margin-bottom:10px;">
+                        <button style="width:100%; padding:6px; background:#7aa2f7; color:#1a1b26; border:none; border-radius:3px; cursor:pointer; font-weight:bold; margin-bottom:20px;">Commit</button>
+                        
+                        <div style="font-size:11px; font-weight:bold; color:#7aa2f7; margin-bottom:5px; display:flex; align-items:center;">
+                            <span class="chevron" style="transform:none; margin-right:5px;">▼</span> CHANGES <span style="margin-left:auto; background:#3b4261; border-radius:10px; padding:0 6px; color:#a9b1d6;">3</span>
+                        </div>
+                        <div style="font-size:13px; margin-left:15px; color:#a9b1d6; display:flex; flex-direction:column; gap:6px;">
+                            <div style="display:flex; align-items:center; cursor:pointer;"><span style="color:#e0af68; margin-right:6px;">M</span> App.js <span style="margin-left:auto; color:#565f89; font-size:11px;">src</span></div>
+                            <div style="display:flex; align-items:center; cursor:pointer;"><span style="color:#f7768e; margin-right:6px;">D</span> old_styles.css <span style="margin-left:auto; color:#565f89; font-size:11px;">src</span></div>
+                            <div style="display:flex; align-items:center; cursor:pointer;"><span style="color:#9ece6a; margin-right:6px;">U</span> new_script.js <span style="margin-left:auto; color:#565f89; font-size:11px;">public</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Run/Debug View -->
+                    <div id="view-debug" class="sidebar-view" style="display:none; padding:10px;">
+                        <div style="color:#565f89; font-size:13px; line-height:1.5;">
+                            To customize Run and Debug, <a href="#" style="color:#7aa2f7; text-decoration:none;">create a launch.json file</a>.
+                        </div>
+                        <button style="margin-top:15px; width:100%; padding:6px; background:#7aa2f7; color:#1a1b26; border:none; border-radius:3px; cursor:pointer; font-weight:bold;">Run and Debug</button>
+                    </div>
+
+                    <!-- Extensions View -->
+                    <div id="view-extensions" class="sidebar-view" style="display:none; padding:10px;">
+                        <input type="text" placeholder="Search Extensions in Marketplace" style="width:100%; padding:4px 6px; background:#1e2030; border:1px solid #1f2335; color:#a9b1d6; border-radius:3px; outline:none; font-family:inherit; margin-bottom:15px;">
+                        
+                        <div style="font-size:11px; font-weight:bold; color:#7aa2f7; margin-bottom:10px; display:flex; align-items:center;">
+                            <span class="chevron" style="transform:none; margin-right:5px;">▼</span> INSTALLED
+                        </div>
+                        
+                        <div style="display:flex; align-items:flex-start; margin-bottom:12px; cursor:pointer;">
+                            <div style="width:36px; height:36px; background:#bb9af7; border-radius:4px; margin-right:10px; flex-shrink:0;"></div>
+                            <div style="overflow:hidden;">
+                                <div style="font-size:13px; color:#cccccc; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">GitHub Pull Requests</div>
+                                <div style="font-size:12px; color:#8c8c8c; margin-top:2px;">GitHub</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display:flex; align-items:flex-start; margin-bottom:12px; cursor:pointer;">
+                            <div style="width:36px; height:36px; background:#7aa2f7; border-radius:4px; margin-right:10px; flex-shrink:0;"></div>
+                            <div style="overflow:hidden;">
+                                <div style="font-size:13px; color:#a9b1d6; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">Prettier - Code formatter</div>
+                                <div style="font-size:12px; color:#565f89; margin-top:2px;">Prettier</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings View -->
+                    <div id="view-settings" class="sidebar-view" style="display:none; padding:10px;">
+                        <div style="font-size:13px; color:#a9b1d6; margin-bottom:15px;">User Settings</div>
+                        <div style="display:flex; flex-direction:column; gap:8px;">
+                            <label style="font-size:12px; color:#565f89;">Theme</label>
+                            <select style="width:100%; padding:4px 6px; background:#1e2030; border:1px solid #1f2335; color:#a9b1d6; border-radius:3px; outline:none; font-family:inherit;">
+                                <option>Dark Modern</option>
+                                <option>Light Modern</option>
+                                <option>High Contrast Dark</option>
+                            </select>
+                            
+                            <label style="font-size:12px; color:#565f89; margin-top:10px;">Font Size</label>
+                            <input type="number" value="14" style="width:100%; padding:4px 6px; background:#1e2030; border:1px solid #1f2335; color:#a9b1d6; border-radius:3px; outline:none; font-family:inherit;">
+                            
+                            <label style="font-size:12px; color:#565f89; margin-top:10px;">Word Wrap</label>
+                            <select style="width:100%; padding:4px 6px; background:#1e2030; border:1px solid #1f2335; color:#a9b1d6; border-radius:3px; outline:none; font-family:inherit;">
+                                <option>on</option>
+                                <option>off</option>
+                                <option>wordWrapColumn</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- tiny extra gloss in sidebar -->
+                </div>
+
+                <!-- main editor + terminal -->
+                <div class="main-editor">
+                    <div class="tabs-container">
+                        <div class="tab active" data-file="App.js"><span class="codicon codicon-file-code tab-icon"></span> App.js <span class="codicon codicon-close tab-close"></span></div>
+                        <div class="tab" data-file="index.js"><span class="codicon codicon-file-code tab-icon"></span> index.js <span class="codicon codicon-close tab-close"></span></div>
+                        <div class="tab" data-file="Header.jsx"><span class="codicon codicon-file-code tab-icon"></span> Header.jsx <span class="codicon codicon-close tab-close"></span></div>
+                    </div>
+                    <!-- breadcrumb navigation -->
+                    <div class="breadcrumb" id="editor-breadcrumb">
+                        <span>web-project</span> <span class="codicon codicon-chevron-right"></span> <span>src</span> <span class="codicon codicon-chevron-right"></span> <span style="color:#cccccc;">App.js</span>
+                    </div>
+
+                    <!-- simple code input editor -->
+                    <div class="code-input-panel vscode-editor-style">
+                        <div class="editor-instance">
+                            <div class="editor-gutter">
+                                <div class="line-number">1</div>
+                            </div>
+                            <div class="code-input-wrapper">
+                                <div class="code-input-area" contenteditable="true" spellcheck="false" aria-label="Code input" data-placeholder="Start typing code...">body {
+    background: #1e1e1e;
+    color: white;
+}</div>
+                                <div class="code-suggestions" hidden></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- code editor area (vibrant syntax) -->
+                    <div class="editor-content" data-file="App.js">
+                        <div class="code-line"><span class="line-numbers">1</span> <span
+                                class="hljs-keyword">import</span> <span class="hljs-string">'./App.css'</span>;</div>
+                        <div class="code-line"><span class="line-numbers">2</span> <span
+                                class="hljs-keyword">import</span> <span class="hljs-function"><span
+                                    class="hljs-title">React</span></span> <span class="hljs-keyword">from</span> <span
+                                class="hljs-string">'react'</span>;</div>
+                        <div class="code-line"><span class="line-numbers">3</span> <span
+                                class="hljs-keyword">import</span> <span class="pink">useState</span> <span
+                                class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;</div>
+                        <div class="code-line"><span class="line-numbers">4</span> </div>
+                        <div class="code-line"><span class="line-numbers">5</span> <span
+                                class="hljs-keyword">function</span> <span class="hljs-function"><span
+                                    class="hljs-title cyan">App</span>(<span class="hljs-params"></span>)</span> {</div>
+                        <div class="code-line"><span class="line-numbers">6</span> <span
+                                class="hljs-keyword">const</span> [<span class="white">count</span>, <span
+                                class="white">setCount</span>] = <span class="hljs-title">useState</span>(<span
+                                class="hljs-number">0</span>);</div>
+                        <div class="code-line"><span class="line-numbers">7</span> </div>
+                        <div class="code-line"><span class="line-numbers">8</span> <span
+                                class="hljs-keyword">return</span> (</div>
+                        <div class="code-line"><span class="line-numbers">9</span> <span class="pink">&lt;div</span>
+                            <span class="hljs-params">className</span>=<span class="hljs-string">"App"</span><span
+                                class="pink">&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">10</span> <span
+                                class="pink">&lt;header&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">11</span> <span
+                                class="hljs-string">&lt;h1&gt;Visual Studio Code&lt;/h1&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">12</span> <span
+                                class="hljs-title">count</span> <span class="plain">is</span> {<span
+                                class="hljs-title">count</span>}</div>
+                        <div class="code-line"><span class="line-numbers">13</span> <span
+                                class="pink">&lt;/header&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">14</span> <span
+                                class="pink">&lt;/div&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">15</span> );</div>
+                        <div class="code-line"><span class="line-numbers">16</span> }</div>
+                        <div class="code-line"><span class="line-numbers">17</span> <span
+                                class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span
+                                class="hljs-title">App</span>;</div>
+                        <div class="code-line"><span class="line-numbers">18</span> </div>
+                    </div>
+                    
+                    <div class="editor-content" data-file="index.js" style="display:none;">
+                        <div class="code-line"><span class="line-numbers">1</span> <span class="hljs-keyword">import</span> <span class="hljs-function"><span class="hljs-title">React</span></span> <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;</div>
+                        <div class="code-line"><span class="line-numbers">2</span> <span class="hljs-keyword">import</span> <span class="pink">ReactDOM</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom/client'</span>;</div>
+                        <div class="code-line"><span class="line-numbers">3</span> <span class="hljs-keyword">import</span> <span class="hljs-string">'./index.css'</span>;</div>
+                        <div class="code-line"><span class="line-numbers">4</span> <span class="hljs-keyword">import</span> <span class="cyan">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'./App'</span>;</div>
+                        <div class="code-line"><span class="line-numbers">5</span> </div>
+                        <div class="code-line"><span class="line-numbers">6</span> <span class="hljs-keyword">const</span> <span class="white">root</span> = <span class="pink">ReactDOM</span>.<span class="hljs-title">createRoot</span>(<span class="hljs-built_in">document</span>.<span class="hljs-title">getElementById</span>(<span class="hljs-string">'root'</span>));</div>
+                        <div class="code-line"><span class="line-numbers">7</span> <span class="white">root</span>.<span class="hljs-title">render</span>(</div>
+                        <div class="code-line"><span class="line-numbers">8</span>   <span class="pink">&lt;React.StrictMode&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">9</span>     <span class="pink">&lt;App /&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">10</span>   <span class="pink">&lt;/React.StrictMode&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">11</span> );</div>
+                    </div>
+                    
+                    <div class="editor-content" data-file="Header.jsx" style="display:none;">
+                        <div class="code-line"><span class="line-numbers">1</span> <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title cyan">Header</span>(<span class="hljs-params"></span>)</span> {</div>
+                        <div class="code-line"><span class="line-numbers">2</span>   <span class="hljs-keyword">return</span> (</div>
+                        <div class="code-line"><span class="line-numbers">3</span>     <span class="pink">&lt;header</span> <span class="hljs-params">className</span>=<span class="hljs-string">"header-container"</span><span class="pink">&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">4</span>       <span class="pink">&lt;nav&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">5</span>         <span class="pink">&lt;ul&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">6</span>           <span class="pink">&lt;li&gt;&lt;a</span> <span class="hljs-params">href</span>=<span class="hljs-string">"/"</span><span class="pink">&gt;</span>Home<span class="pink">&lt;/a&gt;&lt;/li&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">7</span>           <span class="pink">&lt;li&gt;&lt;a</span> <span class="hljs-params">href</span>=<span class="hljs-string">"/about"</span><span class="pink">&gt;</span>About<span class="pink">&lt;/a&gt;&lt;/li&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">8</span>           <span class="pink">&lt;li&gt;&lt;a</span> <span class="hljs-params">href</span>=<span class="hljs-string">"/contact"</span><span class="pink">&gt;</span>Contact<span class="pink">&lt;/a&gt;&lt;/li&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">9</span>         <span class="pink">&lt;/ul&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">10</span>       <span class="pink">&lt;/nav&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">11</span>     <span class="pink">&lt;/header&gt;</span></div>
+                        <div class="code-line"><span class="line-numbers">12</span>   );</div>
+                        <div class="code-line"><span class="line-numbers">13</span> }</div>
+                    </div>
+
+                    <!-- integrated terminal with bash prompt -->
+                    <div class="terminal-panel">
+                        <div class="terminal-header">
+                            <span class="terminal-tab-active">TERMINAL</span>
+                            <span>PROBLEMS</span>
+                            <span>OUTPUT</span>
+                            <span>DEBUG CONSOLE</span>
+                            <span class="terminal-actions" aria-hidden="true">
+                                <span class="codicon codicon-split-horizontal"></span>
+                                <span class="codicon codicon-trash"></span>
+                                <span class="codicon codicon-chevron-up"></span>
+                                <span class="codicon codicon-close"></span>
+                            </span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="prompt">PS C:\Users\web-project></span>
+                            <span class="terminal-input" contenteditable="true">npm start</span>
+                        </div>
+                        <div style="color:#73d0a2; margin-top:6px;"> > web-project@1.0.0 start</div>
+                        <div style="color:#a9b1d6;"> > react-scripts start</div>
+                        <div style="color:#a9b1d6; margin-top: 10px;">Starting the development server...</div>
+                        <div style="color:#9ece6a; margin-top: 10px;">Compiled successfully!</div>
+                        <div style="color:#a9b1d6; margin-top: 10px;">
+                            You can now view web-project in the browser.<br><br>
+                            Local:            http://localhost:3000<br>
+                            On Your Network:  http://192.168.1.5:3000<br><br>
+                            Note that the development build is not optimized.<br>
+                            To create a production build, use npm run build.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- extra note for ultra-detailed feel (small floating glow) -->
+    <div class="status-bar">
+        <div class="status-left">
+            <span class="codicon codicon-remote"></span>
+            <span class="codicon codicon-error"></span><span>0</span>
+            <span class="codicon codicon-warning"></span><span>0</span>
+        </div>
+        <div class="status-right">
+            <span class="codicon codicon-github-inverted"></span>
+            <span>Layout: US</span>
+            <span class="codicon codicon-bell"></span>
+        </div>
+    </div>
+</body>
+
+</html>
